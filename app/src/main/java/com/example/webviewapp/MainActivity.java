@@ -8,6 +8,7 @@ import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.webkit.WebSettings;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -47,7 +48,16 @@ public class MainActivity extends AppCompatActivity {
         
         // 配置WebView
         webView.getSettings().setJavaScriptEnabled(true);
-        
+        webView.getSettings().setDomStorageEnabled(true); // 启用DOM存储API
+        webView.getSettings().setDatabaseEnabled(true); // 启用数据库存储API
+        webView.getSettings().setAppCacheEnabled(true); // 启用应用缓存API
+        webView.getSettings().setLoadsImagesAutomatically(true); // 自动加载图片
+        webView.getSettings().setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW); // 允许混合内容
+        webView.getSettings().setUseWideViewPort(true); // 使用宽视图
+        webView.getSettings().setLoadWithOverviewMode(true); // 加载网页时以概览模式加载
+        webView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true); // 允许JS打开窗口
+        webView.getSettings().setSupportMultipleWindows(false); // 不支持多窗口
+        webView.getSettings().setAllowFileAccess(true); // 允许访问文件
         // 设置自定义WebViewClient
         webView.setWebViewClient(new CustomWebViewClient());
         
