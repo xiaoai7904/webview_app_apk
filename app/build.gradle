@@ -15,10 +15,23 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    // 添加签名配置
+    signingConfigs {
+        release {
+            storeFile file("../keystore/release.keystore")
+            storePassword "android"
+            keyAlias "androidkey"
+            keyPassword "android"
+            // 如果您没有keystore文件，请先创建一个，或者修改上面的路径和密码
+        }
+    }
+
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            // 应用签名配置
+            signingConfig signingConfigs.release
         }
     }
     

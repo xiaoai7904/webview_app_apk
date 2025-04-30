@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
                         } else {
                             Toast.makeText(MainActivity.this, "无法获取URL", Toast.LENGTH_LONG).show();
                             // 加载默认页面
-                            webView.loadUrl("http://8.216.128.47/");
+                            webView.loadUrl("https://www.ai-boston.net/");
                         }
                     }
                 });
