@@ -28,35 +28,36 @@
 19-->/Users/admin/apptest/app/src/main/AndroidManifest.xml:10:9-41
 20        android:supportsRtl="true"
 20-->/Users/admin/apptest/app/src/main/AndroidManifest.xml:11:9-35
-21        android:theme="@style/AppTheme" >
-21-->/Users/admin/apptest/app/src/main/AndroidManifest.xml:12:9-40
-22
-23        <!-- 删除或注释掉SplashActivity -->
-24        <!--
-25        <activity android:name=".SplashActivity">
-26            <intent-filter>
-27                <action android:name="android.intent.action.MAIN" />
-28                <category android:name="android.intent.category.LAUNCHER" />
-29            </intent-filter>
-30        </activity>
-31        -->
-32
+21        android:testOnly="true"
+22        android:theme="@style/AppTheme" >
+22-->/Users/admin/apptest/app/src/main/AndroidManifest.xml:12:9-40
+23
+24        <!-- 删除或注释掉SplashActivity -->
+25        <!--
+26        <activity android:name=".SplashActivity">
+27            <intent-filter>
+28                <action android:name="android.intent.action.MAIN" />
+29                <category android:name="android.intent.category.LAUNCHER" />
+30            </intent-filter>
+31        </activity>
+32        -->
 33
-34        <!-- 将MainActivity设置为启动活动 -->
-35        <activity android:name="com.example.webviewapp.MainActivity" >
-35-->/Users/admin/apptest/app/src/main/AndroidManifest.xml:24:9-29:20
-35-->/Users/admin/apptest/app/src/main/AndroidManifest.xml:24:19-47
-36            <intent-filter>
-36-->/Users/admin/apptest/app/src/main/AndroidManifest.xml:25:13-28:29
-37                <action android:name="android.intent.action.MAIN" />
-37-->/Users/admin/apptest/app/src/main/AndroidManifest.xml:26:17-69
-37-->/Users/admin/apptest/app/src/main/AndroidManifest.xml:26:25-66
-38
-39                <category android:name="android.intent.category.LAUNCHER" />
-39-->/Users/admin/apptest/app/src/main/AndroidManifest.xml:27:17-77
-39-->/Users/admin/apptest/app/src/main/AndroidManifest.xml:27:27-74
-40            </intent-filter>
-41        </activity>
-42    </application>
-43
-44</manifest>
+34
+35        <!-- 将MainActivity设置为启动活动 -->
+36        <activity android:name="com.example.webviewapp.MainActivity" >
+36-->/Users/admin/apptest/app/src/main/AndroidManifest.xml:24:9-29:20
+36-->/Users/admin/apptest/app/src/main/AndroidManifest.xml:24:19-47
+37            <intent-filter>
+37-->/Users/admin/apptest/app/src/main/AndroidManifest.xml:25:13-28:29
+38                <action android:name="android.intent.action.MAIN" />
+38-->/Users/admin/apptest/app/src/main/AndroidManifest.xml:26:17-69
+38-->/Users/admin/apptest/app/src/main/AndroidManifest.xml:26:25-66
+39
+40                <category android:name="android.intent.category.LAUNCHER" />
+40-->/Users/admin/apptest/app/src/main/AndroidManifest.xml:27:17-77
+40-->/Users/admin/apptest/app/src/main/AndroidManifest.xml:27:27-74
+41            </intent-filter>
+42        </activity>
+43    </application>
+44
+45</manifest>
