@@ -8,10 +8,10 @@ android {
 
     defaultConfig {
         applicationId "com.example.webviewapp"
-        minSdkVersion 26  // 从21改为26
+        minSdkVersion 26
         targetSdkVersion 30
         versionCode 1
-        versionName "1.0"
+        versionName "1.0.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -39,6 +39,13 @@ android {
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
+    }
+    applicationVariants.all { variant ->
+        variant.outputs.all { output ->
+            // 使用项目名称作为前缀
+            def projectName = project.name
+            outputFileName = "${projectName}_v${variant.versionName}_${variant.buildType.name}.apk"
+        }
     }
 }
 

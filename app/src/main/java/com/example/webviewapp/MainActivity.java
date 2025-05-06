@@ -23,7 +23,6 @@ public class MainActivity extends AppCompatActivity {
     private WebView webView;
     private ProgressBar progressBar; // 添加进度条
     private TextView loadingText; // 添加加载文字
-    private static final String API_URL = "https://api.example.com/geturl"; // 替换为实际的API地址
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,11 +73,11 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         if (url != null && !url.isEmpty()) {
-                            webView.loadUrl(url + "?clienType=android");
+                            webView.loadUrl(url + "?clientType=android");
                         } else {
-                            Toast.makeText(MainActivity.this, "无法获取URL", Toast.LENGTH_LONG).show();
+                            Toast.makeText(MainActivity.this, "Loading failed", Toast.LENGTH_LONG).show();
                             // 加载默认页面
-                            webView.loadUrl("https://hiltonhotelretal.com?clienType=android");
+                            webView.loadUrl("https://sss.net?clientType=android");
                         }
                     }
                 });
@@ -96,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
             // 显示加载进度条和自定义文字
             progressBar.setVisibility(View.VISIBLE);
             loadingText.setVisibility(View.VISIBLE);
-            loadingText.setText("正在加载中..."); // 自定义加载文字
+            loadingText.setText("Loading..."); // 自定义加载文字
         }
         
         // 页面加载完成时调用
@@ -113,48 +112,69 @@ public class MainActivity extends AppCompatActivity {
         public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
             super.onReceivedError(view, errorCode, description, failingUrl);
             // 显示错误信息
-            loadingText.setText("加载失败，请检查网络连接");
+            loadingText.setText("Loading failed, please check the network connection");
             progressBar.setVisibility(View.GONE);
         }
     }
 
+    // 定义多个API地址
+    private static final String[] API_URLS = {
+        "ss",  // 主要API地址
+        "https://backup-api.example.com/geturl",  // 备用API地址1
+        "https://fallback-api.example.com/geturl"  // 备用API地址2
+    };
+
     private String getUrlFromApi() {
         HttpURLConnection connection = null;
         BufferedReader reader = null;
-        try {
-            URL url = new URL(API_URL);
-            connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestMethod("GET");
-            connection.setConnectTimeout(5000);
-            connection.setReadTimeout(5000);
+        
+        // 依次尝试每个API地址
+        for (String apiUrl : API_URLS) {
+            try {
+                URL url = new URL(apiUrl);
+                connection = (HttpURLConnection) url.openConnection();
+                connection.setRequestMethod("GET");
+                connection.setConnectTimeout(5000);
+                connection.setReadTimeout(5000);
 
-            // 检查响应码
-            int responseCode = connection.getResponseCode();
-            if (responseCode == HttpURLConnection.HTTP_OK) {
-                reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-                StringBuilder response = new StringBuilder();
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    response.append(line);
+                // 检查响应码
+                int responseCode = connection.getResponseCode();
+                if (responseCode == HttpURLConnection.HTTP_OK) {
+                    reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                    StringBuilder response = new StringBuilder();
+                    String line;
+                    while ((line = reader.readLine()) != null) {
+                        response.append(line);
+                    }
+                    String result = response.toString().trim();
+                    if (result != null && !result.isEmpty()) {
+                        return result;  // 成功获取URL，立即返回
+                    }
                 }
-                return response.toString().trim();
-            } else {
-                return null;
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        } finally {
-            if (connection != null) {
-                connection.disconnect();
-            }
-            if (reader != null) {
-                try {
-                    reader.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
+            } catch (IOException e) {
+                // 记录错误但继续尝试下一个API
+                e.printStackTrace();
+            } finally {
+                // 关闭当前连接和读取器
+                if (connection != null) {
+                    connection.disconnect();
+                }
+                if (reader != null) {
+                    try {
+                        reader.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    reader = null;  // 重置reader以便下一次循环使用
                 }
             }
+            
+            // 记录尝试下一个API的日志
+            android.util.Log.d("WebViewApp", "尝试下一个API地址: " + apiUrl + " 失败，切换到下一个");
         }
+        
+        // 所有API都失败了，返回null
+        android.util.Log.e("WebViewApp", "所有API请求都失败了");
+        return null;
     }
 }
