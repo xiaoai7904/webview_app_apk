@@ -3,13 +3,14 @@ plugins {
 }
 
 android {
-    compileSdkVersion 30
+    compileSdkVersion 33  // 更新为与targetSdkVersion相同或更高的版本
     buildToolsVersion "30.0.3"
 
     defaultConfig {
         applicationId "com.example.webviewapp"
         minSdkVersion 26
-        targetSdkVersion 30
+        targetSdkVersion 33  // 更新为较新的版本，如Android 13 (API 33)
+        // 或者更新为 targetSdkVersion 34 (Android 14)
         versionCode 1
         versionName "1.0.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"

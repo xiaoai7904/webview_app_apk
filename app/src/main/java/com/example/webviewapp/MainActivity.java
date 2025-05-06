@@ -34,6 +34,12 @@ public class MainActivity extends AppCompatActivity {
         if (getSupportActionBar() != null) {
             getSupportActionBar().hide();
         }
+
+        // if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        //     if (checkSelfPermission(Manifest.permission.INTERNET) != PackageManager.PERMISSION_GRANTED) {
+        //         requestPermissions(new String[]{Manifest.permission.INTERNET}, 1);
+        //     }
+        // }
         
         // 设置全屏显示
         getWindow().getDecorView().setSystemUiVisibility(
@@ -49,9 +55,10 @@ public class MainActivity extends AppCompatActivity {
         
         // 配置WebView
         webView.getSettings().setJavaScriptEnabled(true);
-        webView.getSettings().setDomStorageEnabled(true); // 启用DOM存储API
-        webView.getSettings().setDatabaseEnabled(true); // 启用数据库存储API
-        webView.getSettings().setAppCacheEnabled(true); // 启用应用缓存API
+        webView.getSettings().setDomStorageEnabled(true);
+        webView.getSettings().setDatabaseEnabled(true);
+        // 移除已弃用的API
+        // webView.getSettings().setAppCacheEnabled(true); // 此API在API级别33中已弃用
         webView.getSettings().setLoadsImagesAutomatically(true); // 自动加载图片
         webView.getSettings().setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW); // 允许混合内容
         webView.getSettings().setUseWideViewPort(true); // 使用宽视图
@@ -79,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
                         } else {
                             Toast.makeText(MainActivity.this, "Loading failed", Toast.LENGTH_LONG).show();
                             // 加载默认页面
-                            webView.loadUrl("https://ccc.net?clientType=android");
+                            webView.loadUrl("https://d.net?clientType=android");
                         }
                     }
                 });
@@ -121,9 +128,9 @@ public class MainActivity extends AppCompatActivity {
 
     // 定义多个API地址
     private static final String[] API_URLS = {
-        "https://aa.com/api/fission/domain",  // 主要API地址
-        "https://bb.com/api/fission/domainl",  // 备用API地址1
-        "https://cc.com/api/fission/domain"  // 备用API地址2
+        "https://a.com/api/fission/domain",  // 主要API地址
+        "https://b.com/api/fission/domainl",  // 备用API地址1
+        "https://c.com/api/fission/domain"  // 备用API地址2
     };
 
     private String getUrlFromApi() {
@@ -149,9 +156,7 @@ public class MainActivity extends AppCompatActivity {
                         response.append(line);
                     }
                     String result = response.toString().trim();
-
                     android.util.Log.d("WebViewApp", "API响应: " + result);
-                    
                     // 解析JSON响应
                     try {
                         JSONObject jsonObject = new JSONObject(result);
