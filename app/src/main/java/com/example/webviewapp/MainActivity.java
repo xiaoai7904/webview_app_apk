@@ -18,6 +18,8 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 public class MainActivity extends AppCompatActivity {
 
     private WebView webView;
@@ -77,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
                         } else {
                             Toast.makeText(MainActivity.this, "Loading failed", Toast.LENGTH_LONG).show();
                             // 加载默认页面
-                            webView.loadUrl("https://sss.net?clientType=android");
+                            webView.loadUrl("https://ccc.net?clientType=android");
                         }
                     }
                 });
@@ -119,9 +121,9 @@ public class MainActivity extends AppCompatActivity {
 
     // 定义多个API地址
     private static final String[] API_URLS = {
-        "ss",  // 主要API地址
-        "https://backup-api.example.com/geturl",  // 备用API地址1
-        "https://fallback-api.example.com/geturl"  // 备用API地址2
+        "https://aa.com/api/fission/domain",  // 主要API地址
+        "https://bb.com/api/fission/domainl",  // 备用API地址1
+        "https://cc.com/api/fission/domain"  // 备用API地址2
     };
 
     private String getUrlFromApi() {
@@ -134,9 +136,9 @@ public class MainActivity extends AppCompatActivity {
                 URL url = new URL(apiUrl);
                 connection = (HttpURLConnection) url.openConnection();
                 connection.setRequestMethod("GET");
-                connection.setConnectTimeout(5000);
-                connection.setReadTimeout(5000);
-
+                connection.setConnectTimeout(30000);
+                connection.setReadTimeout(30000);
+    
                 // 检查响应码
                 int responseCode = connection.getResponseCode();
                 if (responseCode == HttpURLConnection.HTTP_OK) {
@@ -147,8 +149,26 @@ public class MainActivity extends AppCompatActivity {
                         response.append(line);
                     }
                     String result = response.toString().trim();
-                    if (result != null && !result.isEmpty()) {
-                        return result;  // 成功获取URL，立即返回
+
+                    android.util.Log.d("WebViewApp", "API响应: " + result);
+                    
+                    // 解析JSON响应
+                    try {
+                        JSONObject jsonObject = new JSONObject(result);
+                        int code = jsonObject.getInt("code");
+                        
+                        // 检查code是否为0且data是否存在
+                        if (code == 0 && jsonObject.has("data")) {
+                            String data = jsonObject.getString("data");
+                            if (data != null && !data.isEmpty()) {
+                                return data;  // 返回data字段的值
+                            }
+                        } else {
+                            android.util.Log.e("WebViewApp", "API返回错误: code=" + code);
+                        }
+                    } catch (JSONException e) {
+                        android.util.Log.e("WebViewApp", "JSON解析错误: " + e.getMessage());
+                        e.printStackTrace();
                     }
                 }
             } catch (IOException e) {
